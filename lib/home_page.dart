@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_tutorial/main.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends StatelessWidget {
   final String title;
   const HomePage({
     super.key,
@@ -11,24 +11,28 @@ class HomePage extends ConsumerWidget {
 
   @override
   // (ref): Allows us to talk with providers from widgets
-  Widget build(BuildContext context, WidgetRef ref) {
-    final name = ref.watch(nameProvider);
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text(
-          name ?? '',
-          style: const TextStyle(
+        title: const Text(
+          'Riverpod Tutorial',
+          style: TextStyle(
             color: Colors.white,
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Center(
-            child: Text(name ?? ''),
-          ),
-        ],
+      body: Consumer(
+        builder: (context, ref, child) {
+          final name = ref.watch(nameProvider);
+          return Column(
+            children: [
+              Center(
+                child: Text(name ?? ''),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
